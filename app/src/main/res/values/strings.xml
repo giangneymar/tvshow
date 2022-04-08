@@ -4,7 +4,6 @@
     <string name="read_more">Đọc Thêm</string>
     <string name="read_less">Rút Gọn</string>
     <string name="website">WEBSITE</string>
-    <string name="tv_shows_db">tv_shows_db</string>
     <string name="watch_list">Danh Sách Xem</string>
     <string name="search">Tìm Kiếm</string>
     <string name="dev">Về Tôi</string>
@@ -16,4 +15,5 @@
     <string name="n_a">N/A</string>
     <string name="delete_from_watch_list">Xóa Khỏi Danh Sách Đang Xem</string>
     <string name="add_into_watch_list">Thêm Vào Danh Sách Đang Xem</string>
+    <string name="desc">Mô Tả</string>
 </resources>

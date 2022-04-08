@@ -1,5 +1,6 @@
 package com.example.appshow.view.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -14,18 +15,33 @@ import com.example.appshow.models.TVShow;
 import java.util.List;
 
 public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.ItemHolder> {
-    private final List<TVShow> tvShows;
-    private final TVShowListener tvShowListener;
+    /*
+    Area : variable
+     */
+    private List<TVShow> tvShows;
+    private TVShowListener tvShowListener;
     private LayoutInflater layoutInflater;
 
+    /*
+    Area function
+     */
     public TVShowAdapter(List<TVShow> tvShows, TVShowListener tvShowListener) {
         this.tvShows = tvShows;
         this.tvShowListener = tvShowListener;
     }
 
+    /*
+    Area : inner class
+     */
     public class ItemHolder extends RecyclerView.ViewHolder {
+        /*
+        Area : variable
+         */
         private final ItemContainerTvShowBinding binding;
 
+        /*
+        Area : function
+         */
         public ItemHolder(ItemContainerTvShowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -35,17 +51,20 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.ItemHolder
             binding.setTvShow(tvShow);
             binding.executePendingBindings();
             binding.getRoot().setOnClickListener(view -> tvShowListener.onTVShowClick(tvShow));
+            binding.containerTvShow.setCardBackgroundColor(Color.rgb(229, 204, 255));
         }
     }
 
-    //handle recyclerview
+    /*
+    Area : override
+     */
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(layoutInflater == null){
+        if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
-        ItemContainerTvShowBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_container_tv_show,parent,false);
+        ItemContainerTvShowBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_container_tv_show, parent, false);
         return new ItemHolder(binding);
     }
 
@@ -56,10 +75,16 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.ItemHolder
 
     @Override
     public int getItemCount() {
+        if (tvShows == null) {
+            return 0;
+        }
         return tvShows.size();
     }
 
-    public interface TVShowListener{
+    /*
+    Area : interface
+     */
+    public interface TVShowListener {
         void onTVShowClick(TVShow tvShow);
     }
 }

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TVShowResponse {
+    /*
+    Area : variable
+     */
     @SerializedName("page")
     private int page;
 
@@ -16,10 +19,9 @@ public class TVShowResponse {
     @SerializedName("tv_shows")
     private ArrayList<TVShow> tvShows;
 
-    public int getPage() {
-        return page;
-    }
-
+    /*
+    Area : function
+     */
     public int getTotalPages() {
         return totalPages;
     }

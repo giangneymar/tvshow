@@ -1,6 +1,6 @@
 package com.example.appshow.view.activity;
 
-import static com.example.appshow.utils.KeyConstants.TV_SHOW;
+import static com.example.appshow.utils.KeyConstant.TV_SHOW;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appshow.R;
 import com.example.appshow.databinding.ActivityWatchListBinding;
-import com.example.appshow.listeners.WatchListListener;
 import com.example.appshow.models.TVShow;
-import com.example.appshow.utils.CheckConstants;
+import com.example.appshow.utils.CheckConstant;
 import com.example.appshow.view.adapter.WatchListAdapter;
 import com.example.appshow.viewmodel.WatchListViewModel;
 
@@ -24,27 +23,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class WatchListActivity extends AppCompatActivity implements WatchListListener {
+public class WatchListActivity extends AppCompatActivity implements WatchListAdapter.WatchListListener {
+    /*
+    Area : variable
+     */
     private ActivityWatchListBinding binding;
     private WatchListViewModel viewModel;
     private WatchListAdapter watchListAdapter;
     private List<TVShow> watchList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_watch_list);
-        initViewModel();
-        loadWatchList();
-        onCLick();
-    }
-
-    private void initViewModel() {
+    /*
+    Area : function
+     */
+    private void initAll() {
         viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
+        watchList = new ArrayList<>();
+        watchListAdapter = new WatchListAdapter(watchList, this);
     }
 
     private void loadWatchList() {
-        watchList = new ArrayList<>();
         binding.setIsLoading(true);
         CompositeDisposable compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(viewModel.loadWatchList()
@@ -56,29 +53,36 @@ public class WatchListActivity extends AppCompatActivity implements WatchListLis
                         watchList.clear();
                     }
                     watchList.addAll(tvShows);
-                    watchListAdapter = new WatchListAdapter(watchList, this);
-                    binding.recyclerViewWatchList.setAdapter(watchListAdapter);
+                    binding.listWatchList.setAdapter(watchListAdapter);
                     compositeDisposable.dispose();
                 }));
     }
 
     private void onCLick() {
-        onCLickBack();
-    }
-
-    private void onCLickBack() {
         binding.imgBack.setOnClickListener(view -> {
             onBackPressed();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
     }
 
+    /*
+    Area : override
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_watch_list);
+        initAll();
+        loadWatchList();
+        onCLick();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (CheckConstants.IS_WATCHLIST_UPDATED) {
+        if (CheckConstant.IS_WATCHLIST_UPDATED) {
             loadWatchList();
-            CheckConstants.IS_WATCHLIST_UPDATED = false;
+            CheckConstant.IS_WATCHLIST_UPDATED = false;
         }
     }
 

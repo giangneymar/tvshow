@@ -1,20 +1,18 @@
 package com.example.appshow.view.activity;
 
-import static com.example.appshow.utils.KeyConstants.TV_SHOW;
+import static com.example.appshow.utils.KeyConstant.TV_SHOW;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appshow.R;
 import com.example.appshow.databinding.ActivitySearchBinding;
@@ -28,36 +26,34 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class SearchActivity extends AppCompatActivity implements TVShowAdapter.TVShowListener {
+    /*
+    Area : variable
+     */
     private ActivitySearchBinding binding;
     private SearchViewModel viewModel;
-    private final List<TVShow> tvShows = new ArrayList<>();
-    private TVShowAdapter adapter;
+    private List<TVShow> tvShows;
+    private TVShowAdapter tvShowAdapter;
     private int currentPage = 1;
     private int totalAvailablePages = 1;
     private Timer timer;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
-        initViewModel();
-        initRecyclerViewSearchTVShow();
-        onClick();
-    }
-
-    private void initViewModel() {
+    /*
+    Area : function
+     */
+    private void initAll() {
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        tvShows = new ArrayList<>();
+        tvShowAdapter = new TVShowAdapter(tvShows, this);
     }
 
-    private void initRecyclerViewSearchTVShow() {
-        binding.recyclerViewSearch.setHasFixedSize(true);
-        adapter = new TVShowAdapter(tvShows, this);
-        binding.recyclerViewSearch.setAdapter(adapter);
-        binding.recyclerViewSearch.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    private void setRecyclerViewSearchTVShow() {
+        binding.listTvShowSearch.setHasFixedSize(true);
+        binding.listTvShowSearch.setAdapter(tvShowAdapter);
+        binding.listTvShowSearch.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!binding.recyclerViewSearch.canScrollVertically(1)) {
+                if (!binding.listTvShowSearch.canScrollVertically(1)) {
                     if (!binding.inputSearch.getText().toString().isEmpty()) {
                         if (currentPage < totalAvailablePages) {
                             currentPage++;
@@ -79,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements TVShowAdapter.T
                 if (tvShowResponse.getTVShows() != null) {
                     int oldCount = tvShows.size();
                     tvShows.addAll(tvShowResponse.getTVShows());
-                    adapter.notifyItemRangeInserted(oldCount, tvShows.size());
+                    tvShowAdapter.notifyItemRangeInserted(oldCount, tvShows.size());
                 }
             }
         });
@@ -94,11 +90,10 @@ public class SearchActivity extends AppCompatActivity implements TVShowAdapter.T
     }
 
     private void onClick() {
-        onClickBack();
-        onClickInputSearch();
-    }
-
-    private void onClickInputSearch() {
+        binding.imgBack.setOnClickListener(view -> {
+            onBackPressed();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
         binding.inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -111,7 +106,6 @@ public class SearchActivity extends AppCompatActivity implements TVShowAdapter.T
                 }
             }
 
-            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().isEmpty()) {
@@ -128,17 +122,23 @@ public class SearchActivity extends AppCompatActivity implements TVShowAdapter.T
                     }, 800);
                 } else {
                     tvShows.clear();
-                    adapter.notifyDataSetChanged();
+                    tvShowAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
 
-    private void onClickBack() {
-        binding.imgBack.setOnClickListener(view -> {
-            onBackPressed();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        });
+    /*
+    Area : override
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        initAll();
+        setRecyclerViewSearchTVShow();
+        onClick();
     }
 
     @Override

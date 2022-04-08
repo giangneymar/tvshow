@@ -3,6 +3,9 @@ package com.example.appshow.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Episode {
+    /*
+    Area : variable
+     */
     @SerializedName("season")
     private String season;
 
@@ -15,6 +18,9 @@ public class Episode {
     @SerializedName("air_date")
     private String airDate;
 
+    /*
+    Area : function
+     */
     public String getSeason() {
         return season;
     }

@@ -11,16 +11,31 @@ import com.example.appshow.R;
 import com.example.appshow.databinding.ItemContainerSliderImageBinding;
 
 public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.ItemHolder> {
-    private final String[] sliderImages;
+    /*
+    Area : variable
+     */
+    private String[] sliderImages;
     private LayoutInflater layoutInflater;
 
+    /*
+    Area : function
+     */
     public ImageSliderAdapter(String[] sliderImages) {
         this.sliderImages = sliderImages;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
-        private final ItemContainerSliderImageBinding binding;
+    /*
+    Area : inner class
+     */
+    public class ItemHolder extends RecyclerView.ViewHolder {
+        /*
+        Area : variable
+         */
+        private ItemContainerSliderImageBinding binding;
 
+        /*
+        Area : function
+         */
         public ItemHolder(ItemContainerSliderImageBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -31,7 +46,9 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         }
     }
 
-    //handler slider
+    /*
+    Area : override
+     */
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +66,9 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @Override
     public int getItemCount() {
+        if (sliderImages == null) {
+            return 0;
+        }
         return sliderImages.length;
     }
 }

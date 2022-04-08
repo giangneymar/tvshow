@@ -14,17 +14,31 @@ import com.example.appshow.models.Episode;
 import java.util.List;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ItemHolder> {
-
-    private final List<Episode> episodes;
+    /*
+    Area : variable
+     */
+    private List<Episode> episodes;
     private LayoutInflater layoutInflater;
 
+    /*
+    Area : function
+     */
     public EpisodesAdapter(List<Episode> episodes) {
         this.episodes = episodes;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
-        private final ItemContainerEpisodeBinding binding;
+    /*
+    Area : inner class
+     */
+    public class ItemHolder extends RecyclerView.ViewHolder {
+        /*
+        Area : variable
+         */
+        private ItemContainerEpisodeBinding binding;
 
+        /*
+        Area : function
+         */
         public ItemHolder(ItemContainerEpisodeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -48,7 +62,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ItemHo
         }
     }
 
-    //handler recyclerview
+    /*
+    Area ; override
+     */
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -66,6 +82,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ItemHo
 
     @Override
     public int getItemCount() {
+        if (episodes == null) {
+            return 0;
+        }
         return episodes.size();
     }
 }

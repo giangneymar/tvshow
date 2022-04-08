@@ -5,23 +5,21 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import com.example.appshow.R;
 import com.example.appshow.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+    /*
+    Area : variable
+     */
     private ActivityMainBinding binding;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        onClick();
-    }
-
+    /*
+    Area : function
+     */
     private void onClick() {
-        binding.imgTVShow.setOnClickListener(view -> {
+        binding.imgTvShow.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, TVShowActivity.class));
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
@@ -39,5 +37,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
+    }
+
+    /*
+    Area : override
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        onClick();
     }
 }

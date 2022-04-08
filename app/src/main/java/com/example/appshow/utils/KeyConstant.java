@@ -1,5 +1,5 @@
 package com.example.appshow.utils;
 
-public interface KeyConstants {
+public interface KeyConstant {
     String TV_SHOW = "tvShow";
 }

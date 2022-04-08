@@ -20,7 +20,7 @@ public interface TVShowDAO {
     Flowable<List<TVShow>> getWatchlist();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable addToWatchlist(TVShow tvShow);
+    Completable addToWatchlist(TVShow... tvShow);
 
     @Delete
     Completable removeFromWatchlist(TVShow tvShow);

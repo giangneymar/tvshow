@@ -9,6 +9,9 @@ import java.io.Serializable;
 
 @Entity(tableName = "tvShows")
 public class TVShow implements Serializable {
+    /*
+    Area : variable
+     */
     @PrimaryKey
     @SerializedName("id")
     private int id;
@@ -31,6 +34,9 @@ public class TVShow implements Serializable {
     @SerializedName("image_thumbnail_path")
     private String thumbnail;
 
+    /*
+    Area : function
+     */
     public int getId() {
         return id;
     }

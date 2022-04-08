@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class TVShowDetails {
+    /*
+    Area : variable
+     */
     @SerializedName("url")
     private String url;
 
@@ -29,6 +32,9 @@ public class TVShowDetails {
     @SerializedName("episodes")
     private ArrayList<Episode> episodes;
 
+    /*
+    Area : function
+     */
     public String getUrl() {
         return url;
     }
